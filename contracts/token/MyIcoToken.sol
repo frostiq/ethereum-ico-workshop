@@ -6,11 +6,11 @@ import "./ERC223.sol";
 import "./TokenReciever.sol";
 
 
-contract PlayHallToken is ERC223, Contactable {
+contract MyIcoToken is ERC223, Contactable {
     using SafeMath for uint;
 
-    string constant public name = "PlayHall Token";
-    string constant public symbol = "PHT";
+    string constant public name = "MyIco Token";
+    string constant public symbol = "ICO";
     uint constant public decimals = 18;
 
     bool public isActivated = false;
@@ -42,7 +42,7 @@ contract PlayHallToken is ERC223, Contactable {
         _;
     }
 
-    function PlayHallToken() public {
+    function MyIcoToken() public {
         minter = msg.sender;
     }
 

@@ -1,8 +1,7 @@
 const BigNumber = require("bignumber.js")
 const Sale = artifacts.require("Sale")
-const Presale = artifacts.require("Presale")
 const PricingStrategy = artifacts.require("SalePricingStrategy")
-const Token = artifacts.require("PlayHallToken")
+const Token = artifacts.require("MyIcoToken")
 
 module.exports = function(deployer, network, accounts) {
   let startTime, 

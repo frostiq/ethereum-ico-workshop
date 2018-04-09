@@ -1,16 +1,16 @@
 pragma solidity ^0.4.17;
 
 import "zeppelin-solidity/contracts/math/SafeMath.sol";
-import "../token/PlayHallToken.sol";
+import "../token/MyIcoToken.sol";
 import "../SaleBase.sol";
 import "../IPricingStrategy.sol";
 import "./IFinalizeAgent.sol";
 
 
 /**
- * @title Presale
- * @dev Presale is a contract for managing a token crowdsale.
- * Presales have a start and end timestamps, where buyers can make
+ * @title Sale
+ * @dev Sale is a contract for managing a token crowdsale.
+ * Sales have a start and end timestamps, where buyers can make
  * token purchases and the crowdsale will assign them tokens based
  * on a token per ETH rate. Funds collected are forwarded to a wallet
  * as they arrive.
@@ -27,7 +27,7 @@ contract Sale is SaleBase {
         uint _startTime,
         uint _endTime,
         IPricingStrategy _pricingStrategy,
-        PlayHallToken _token,
+        MyIcoToken _token,
         address _wallet,
         uint _weiMaximumGoal,
         uint _weiMinimumGoal,

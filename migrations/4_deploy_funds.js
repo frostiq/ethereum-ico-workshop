@@ -3,7 +3,7 @@ const Sale = artifacts.require("Sale")
 const Fund = artifacts.require("Fund")
 const VestedFund = artifacts.require("VestedFund")
 const ReserveFund = artifacts.require("ReserveFund")
-const Token = artifacts.require("PlayHallToken")
+const Token = artifacts.require("MyIcoToken")
 const FinalizeAgent = artifacts.require("FinalizeAgent")
 
 module.exports = function(deployer, network, accounts) {

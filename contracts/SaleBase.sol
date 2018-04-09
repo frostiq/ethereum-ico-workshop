@@ -4,14 +4,14 @@ import "zeppelin-solidity/contracts/math/SafeMath.sol";
 import "zeppelin-solidity/contracts/lifecycle/Pausable.sol";
 import "zeppelin-solidity/contracts/ownership/Contactable.sol";
 import "./IPricingStrategy.sol";
-import "./token/PlayHallToken.sol";
+import "./token/MyIcoToken.sol";
 
 
 contract SaleBase is Pausable, Contactable {
     using SafeMath for uint;
   
     // The token being sold
-    PlayHallToken public token;
+    MyIcoToken public token;
   
     // start and end timestamps where purchases are allowed (both inclusive)
     uint public startTime;
@@ -80,7 +80,7 @@ contract SaleBase is Pausable, Contactable {
         uint _startTime,
         uint _endTime,
         IPricingStrategy _pricingStrategy,
-        PlayHallToken _token,
+        MyIcoToken _token,
         address _wallet,
         uint _weiMaximumGoal,
         uint _weiMinimumGoal,
