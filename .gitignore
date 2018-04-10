@@ -3,3 +3,5 @@ node_modules/
 build/
 types/
 js_test/
+.DS_Store
+*.log
