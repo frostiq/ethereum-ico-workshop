@@ -1,6 +1,6 @@
 pragma solidity ^0.4.17;
 
-import "./TokenVestingERC223.sol";
+import "zeppelin-solidity/contracts/token/TokenVesting.sol";
 import "./FundBase.sol";
 
 
@@ -24,7 +24,7 @@ contract VestedFund is FundBase {
         bool _revocable
     ) external onlyOwner 
     {
-        var paymentFund = new TokenVestingERC223(_beneficiary, _start, _cliff, _duration, _revocable);
+        var paymentFund = new TokenVesting(_beneficiary, _start, _cliff, _duration, _revocable);
         token.safeTransfer(paymentFund, _amount);
         vestedPayments[_beneficiary].push(paymentFund);
         

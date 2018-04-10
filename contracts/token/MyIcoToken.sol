@@ -2,11 +2,10 @@ pragma solidity ^0.4.17;
 
 import "zeppelin-solidity/contracts/math/SafeMath.sol";
 import "zeppelin-solidity/contracts/ownership/Contactable.sol";
-import "./ERC223.sol";
-import "./TokenReciever.sol";
+import "zeppelin-solidity/contracts/token/ERC20.sol";
 
 
-contract MyIcoToken is ERC223, Contactable {
+contract MyIcoToken is ERC20, Contactable {
     using SafeMath for uint;
 
     string constant public name = "MyIco Token";
@@ -51,18 +50,7 @@ contract MyIcoToken is ERC223, Contactable {
     * @param _to The address to transfer to.
     * @param _value The amount to be transferred.
     */
-    function transfer(address _to, uint _value) public returns (bool) {
-        bytes memory empty;
-        return transfer(_to, _value, empty);
-    }
-
-    /**
-    * @dev transfer token for a specified address
-    * @param _to The address to transfer to.
-    * @param _value The amount to be transferred.
-    * @param _data Optional metadata.
-    */
-    function transfer(address _to, uint _value, bytes _data) public whenActivated returns (bool) {
+    function transfer(address _to, uint _value) whenActivated public returns (bool) {
         require(_to != address(0));
         require(_value <= balances[msg.sender]);
         require(!freezedList[msg.sender]);
@@ -71,13 +59,7 @@ contract MyIcoToken is ERC223, Contactable {
         balances[msg.sender] = balances[msg.sender].sub(_value);
         balances[_to] = balances[_to].add(_value);
 
-        if (isContract(_to)) {
-            TokenReciever receiver = TokenReciever(_to);
-            receiver.tokenFallback(msg.sender, _value, _data);
-        }
-
         Transfer(msg.sender, _to, _value);
-        Transfer(msg.sender, _to, _value, _data);
         return true;
     }
 
@@ -96,19 +78,7 @@ contract MyIcoToken is ERC223, Contactable {
      * @param _to address The address which you want to transfer to
      * @param _value uint the amount of tokens to be transferred
      */
-    function transferFrom(address _from, address _to, uint _value) public returns (bool) {
-        bytes memory empty;
-        return transferFrom(_from, _to, _value, empty);
-    }
-
-    /**
-     * @dev Transfer tokens from one address to another
-     * @param _from address The address which you want to send tokens from
-     * @param _to address The address which you want to transfer to
-     * @param _value uint the amount of tokens to be transferred
-     * @param _data Optional metadata.
-     */
-    function transferFrom(address _from, address _to, uint _value, bytes _data) public whenActivated returns (bool) {
+    function transferFrom(address _from, address _to, uint _value) whenActivated public returns (bool) {
         require(_to != address(0));
         require(_value <= balances[_from]);
         require(_value <= allowed[_from][msg.sender]);
@@ -118,13 +88,7 @@ contract MyIcoToken is ERC223, Contactable {
         balances[_to] = balances[_to].add(_value);
         allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
 
-        if (isContract(_to)) {
-            TokenReciever receiver = TokenReciever(_to);
-            receiver.tokenFallback(_from, _value, _data);
-        }
-
         Transfer(_from, _to, _value);
-        Transfer(_from, _to, _value, _data);
         return true;
     }
 
@@ -240,14 +204,5 @@ contract MyIcoToken is ERC223, Contactable {
     function activate() external onlyOwner returns (bool) {
         isActivated = true;
         return true;
-    }
-
-    function isContract(address _addr) private view returns (bool) {
-        uint length;
-        assembly {
-              //retrieve the size of the code on target address, this needs assembly
-              length := extcodesize(_addr)
-        }
-        return (length>0);
     }
 }
