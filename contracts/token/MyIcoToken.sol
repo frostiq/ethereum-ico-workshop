@@ -2,10 +2,12 @@ pragma solidity ^0.4.17;
 
 import "zeppelin-solidity/contracts/math/SafeMath.sol";
 import "zeppelin-solidity/contracts/ownership/Contactable.sol";
-import "zeppelin-solidity/contracts/token/ERC20.sol";
+import "zeppelin-solidity/contracts/token/ERC20/ERC20.sol";
+import "zeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
 
 
-contract MyIcoToken is ERC20, Contactable {
+
+contract MyIcoToken is ERC20, Contactable, StandardToken {
     using SafeMath for uint;
 
     string constant public name = "MyIco Token";
@@ -163,7 +165,7 @@ contract MyIcoToken is ERC20, Contactable {
      * @return A boolean that indicates if the operation was successful.
      */
     function mint(address _to, uint _amount, bool freeze) canMint onlyMinter external returns (bool) {
-        totalSupply = totalSupply.add(_amount);
+        totalSupply_ = totalSupply_.add(_amount);
         balances[_to] = balances[_to].add(_amount);
         if (freeze) {
             freezedList[_to] = true;

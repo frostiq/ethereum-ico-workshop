@@ -6,7 +6,7 @@ import { W3 } from 'soltsice';
 import { Utils } from '../Utils'
 
 chai.should()
-W3.Default = new W3()
+W3.default = new W3()
 
 contract('FundTests', (accounts) => {
 
@@ -18,9 +18,9 @@ contract('FundTests', (accounts) => {
     let fund: Fund
 
     before(async () => {
-        token = await MyIcoToken.New(W3.TC.txParamsDefaultDeploy(OWNER))
-        await token.activate(W3.TC.txParamsDefaultDeploy(OWNER))
-        fund = await Fund.New(W3.TC.txParamsDefaultDeploy(OWNER), { _token: token.address})
+        token = await MyIcoToken.new(W3.TX.txParamsDefaultDeploy(OWNER))
+        await token.activate(W3.TX.txParamsDefaultDeploy(OWNER))
+        fund = await Fund.new(W3.TX.txParamsDefaultDeploy(OWNER), { _token: token.address})
         await token.mint(fund.address, AMOUNT, true, Utils.txParams(OWNER))
     })
 
