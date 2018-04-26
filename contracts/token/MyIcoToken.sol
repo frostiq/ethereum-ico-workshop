@@ -15,7 +15,6 @@ contract MyIcoToken is ERC20, Contactable, StandardToken {
     uint constant public decimals = 18;
 
     bool public isActivated = false;
-    // uint totalSupply_ = 1000;
 
     mapping (address => uint) balances;
     mapping (address => mapping (address => uint)) internal allowed;
