@@ -6,7 +6,7 @@ import { W3 } from 'soltsice';
 import { Utils } from './Utils'
 
 chai.should();
-W3.Default = new W3();
+W3.default = new W3();
 
 contract('MyIcoToken', (accounts) => {
 
@@ -20,8 +20,8 @@ contract('MyIcoToken', (accounts) => {
     let token: MyIcoToken;
 
     before(async () => {
-        token = await MyIcoToken.New(W3.TC.txParamsDefaultDeploy(OWNER));
-        await token.setMinter(MINTER, W3.TC.txParamsDefaultSend(OWNER))
+        token = await MyIcoToken.new(W3.TX.txParamsDefaultDeploy(OWNER));
+        await token.setMinter(MINTER, W3.TX.txParamsDefaultSend(OWNER))
     })
 
     it("#1 should have correct parameters", async () => {
@@ -80,7 +80,7 @@ contract('MyIcoToken', (accounts) => {
     })
 
     it("#9 should activate token by owner", async () => {
-        await token.activate(W3.TC.txParamsDefaultDeploy(OWNER));
+        await token.activate(W3.TX.txParamsDefaultDeploy(OWNER));
         let isActivated = await token.isActivated();
         isActivated.should.be.equal(true);
     })

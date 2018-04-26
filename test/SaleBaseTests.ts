@@ -12,7 +12,7 @@ chai.use(require('chai-bignumber')());
 chai.use(require('chai-as-promised'));
 chai.should();
 
-W3.Default = new W3();
+W3.default = new W3();
 
 contract('SaleBase', (accounts) => {
 
@@ -40,14 +40,14 @@ contract('SaleBase', (accounts) => {
     let pricingStrategy: SalePricingStrategy;
 
     let deploySaleBase = async (deltaStart, deltaEnd) => {
-        token = await MyIcoToken.New(deployingParams);
-        await token.activate(W3.TC.txParamsDefaultDeploy(OWNER))
-        pricingStrategy = await SalePricingStrategy.New(deployingParams, {
+        token = await MyIcoToken.new(deployingParams);
+        await token.activate(W3.TX.txParamsDefaultDeploy(OWNER))
+        pricingStrategy = await SalePricingStrategy.new(deployingParams, {
             _rates: [RATE],
             _limits: [WEI_MAX_GOAL.mul(RATE)]
         });
         const now = await Utils.getLastBlockTime();
-        saleBase = await SaleBase.New(deployingParams, {
+        saleBase = await SaleBase.new(deployingParams, {
             _startTime: now + deltaStart,
             _endTime: now + deltaEnd,
             _pricingStrategy: pricingStrategy.address,
@@ -63,10 +63,10 @@ contract('SaleBase', (accounts) => {
     }
 
     before(async()=>{        
-        token = await MyIcoToken.New(W3.TC.txParamsDefaultDeploy(OWNER))
-        await token.activate(W3.TC.txParamsDefaultDeploy(OWNER))
+        token = await MyIcoToken.new(W3.TX.txParamsDefaultDeploy(OWNER))
+        await token.activate(W3.TX.txParamsDefaultDeploy(OWNER))
 
-        pricingStrategy = await SalePricingStrategy.New(deployingParams, {
+        pricingStrategy = await SalePricingStrategy.new(deployingParams, {
             _rates: [RATE],
             _limits: [WEI_MAX_GOAL.mul(RATE)]
         });
@@ -74,7 +74,7 @@ contract('SaleBase', (accounts) => {
         START_TIME = (await Utils.getLastBlockTime()) + 40*DAY;
         END_TIME = START_TIME + 10*DAY;
 
-        saleBase = await SaleBase.New(deployingParams, {
+        saleBase = await SaleBase.new(deployingParams, {
             _startTime: START_TIME,
             _endTime: END_TIME,
             _pricingStrategy: pricingStrategy.address,
@@ -117,12 +117,12 @@ contract('SaleBase', (accounts) => {
         await Utils.increaseTime(startTime - now + 30, accounts[0]);
 
         const value = 500;
-        const balance1 = new BigNumber(await W3.Default.eth.getBalance(WALLET));
+        const balance1 = new BigNumber(await W3.default.getBalance(WALLET));
 
         await saleBase.sendTransaction(Utils.txParams(BUYERS[1], value));
         
         const tokens = new BigNumber(await token.balanceOf(BUYERS[1]));
-        const balance2 = new BigNumber(await W3.Default.eth.getBalance(WALLET));
+        const balance2 = new BigNumber(await W3.default.getBalance(WALLET));
 
         tokens.toNumber().should.equal(RATE * value);
         balance2.toNumber().should.equal(balance1.plus(value).toNumber());

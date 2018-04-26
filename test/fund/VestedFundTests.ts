@@ -6,7 +6,7 @@ import { W3 } from 'soltsice';
 import { Utils } from '../Utils'
 
 chai.should()
-W3.Default = new W3()
+W3.default = new W3()
 
 contract('VestedFundTests', (accounts) => {
 
@@ -21,9 +21,9 @@ contract('VestedFundTests', (accounts) => {
     let fund: VestedFund
 
     before(async () => {
-        token = await MyIcoToken.New(W3.TC.txParamsDefaultDeploy(OWNER))
-        await token.activate(W3.TC.txParamsDefaultDeploy(OWNER))
-        fund = await VestedFund.New(W3.TC.txParamsDefaultDeploy(OWNER), { _token: token.address})
+        token = await MyIcoToken.new(W3.TX.txParamsDefaultDeploy(OWNER))
+        await token.activate(W3.TX.txParamsDefaultDeploy(OWNER))
+        fund = await VestedFund.new(W3.TX.txParamsDefaultDeploy(OWNER), { _token: token.address})
         await token.mint(fund.address, 2 * AMOUNT, true, Utils.txParams(OWNER))
     })
 
@@ -35,7 +35,7 @@ contract('VestedFundTests', (accounts) => {
         await fund.makeVestedPayment(BENEFICIARY, AMOUNT, start, CLIFF, DURATION, true, Utils.txParams(OWNER))
 
         const fundBalance2 = await token.balanceOf(fund.address)
-        const paymentFund = await TokenVesting.At(await fund.vestedPayments(BENEFICIARY, 0))
+        const paymentFund = await TokenVesting.at(await fund.vestedPayments(BENEFICIARY, 0))
         
         const resBeneficiary = await paymentFund.beneficiary()
         const resCliff = await paymentFund.cliff()
@@ -52,7 +52,7 @@ contract('VestedFundTests', (accounts) => {
     })
 
     it("#2 should allow to release payments correctly", async () => {
-        const paymentFund = await TokenVesting.At(await fund.vestedPayments(BENEFICIARY, 0))
+        const paymentFund = await TokenVesting.at(await fund.vestedPayments(BENEFICIARY, 0))
         const start = await paymentFund.start()
         const now = await Utils.getLastBlockTime()
         

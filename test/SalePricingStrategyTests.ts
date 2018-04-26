@@ -6,7 +6,7 @@ import { W3 } from 'soltsice';
 
 chai.should();
 chai.use(require('chai-as-promised'))
-W3.Default = new W3();
+W3.default = new W3();
 
 
 contract('SalePricingStrategy', (accounts) => {
@@ -25,7 +25,7 @@ contract('SalePricingStrategy', (accounts) => {
     let strategy: SalePricingStrategy
 
     before(async () => {
-        strategy = await SalePricingStrategy.New(deployParams, {
+        strategy = await SalePricingStrategy.new(deployParams, {
             _rates: RATES,
             _limits: LIMITS
         })

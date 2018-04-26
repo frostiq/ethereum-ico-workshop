@@ -13,7 +13,7 @@ chai.use(require('chai-bignumber')());
 chai.use(require('chai-as-promised'));
 chai.should();
 
-W3.Default = new W3();
+W3.default = new W3();
 
 contract('FinalizeAgent', (accounts) => {
 
@@ -47,9 +47,9 @@ contract('FinalizeAgent', (accounts) => {
     let START_TIME: number;
 
     before(async () => {
-        token = await MyIcoToken.New(deployingParams);
-        await token.activate(W3.TC.txParamsDefaultDeploy(OWNER))
-        pricingStrategy = await SalePricingStrategy.New(deployingParams, {
+        token = await MyIcoToken.new(deployingParams);
+        await token.activate(W3.TX.txParamsDefaultDeploy(OWNER))
+        pricingStrategy = await SalePricingStrategy.new(deployingParams, {
             _rates: RATES,
             _limits: LIMITS
         });
@@ -57,7 +57,7 @@ contract('FinalizeAgent', (accounts) => {
         START_TIME = await Utils.getLastBlockTime() + 20*DAY;
         const END_TIME = START_TIME + 10*DAY;
 
-        sale = await Sale.New(deployingParams, {
+        sale = await Sale.new(deployingParams, {
             _startTime: START_TIME,
             _endTime: END_TIME,
             _pricingStrategy: pricingStrategy.address,
@@ -71,7 +71,7 @@ contract('FinalizeAgent', (accounts) => {
             _tokensSold: 0
         });
 
-        finalizeAgent = await FinalizeAgent.New(deployingParams, {
+        finalizeAgent = await FinalizeAgent.new(deployingParams, {
             _token: token.address,
             _crowdsale: sale.address,
             _teamPercent: TEAM_PERCENT,
