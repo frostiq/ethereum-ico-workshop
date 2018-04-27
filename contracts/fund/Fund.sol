@@ -5,7 +5,7 @@ import "./FundBase.sol";
 
 contract Fund is FundBase {
 
-    function Fund(ERC20Basic _token) public FundBase(_token) {
+    constructor(ERC20Basic _token) public FundBase(_token) {
         
     }
 

@@ -23,7 +23,7 @@ contract Sale is SaleBase {
     IFinalizeAgent public finalizeAgent;
     
     uint public time;
-    function Sale(
+    constructor(
         uint _startTime,
         uint _endTime,
         IPricingStrategy _pricingStrategy,
