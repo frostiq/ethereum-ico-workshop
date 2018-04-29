@@ -21,7 +21,7 @@ contract FinalizeAgent is IFinalizeAgent {
     address public bountyFund;
     address public reserveFund;
     
-    function FinalizeAgent (
+    constructor (
         ERC20Basic _token, 
         SaleBase _crowdsale,
         uint _teamPercent,
@@ -47,7 +47,7 @@ contract FinalizeAgent is IFinalizeAgent {
         reserveFund = _reserveFund;
     }
 
-    function isFinalizeAgent() public constant returns(bool) {
+    function isFinalizeAgent() external constant returns(bool) {
         return true;
     }
 

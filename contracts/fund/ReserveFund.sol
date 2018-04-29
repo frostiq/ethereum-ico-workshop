@@ -4,9 +4,9 @@ import "./Fund.sol";
 import "./VestedFund.sol";
 
 
-contract ReserveFund is Fund, VestedFund {
+contract ReserveFund is VestedFund {
     
-    function ReserveFund(ERC20Basic _token) Fund(_token) VestedFund(_token) public {
+    constructor(ERC20Basic _token) VestedFund(_token) public {
         
     }
 }

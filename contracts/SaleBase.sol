@@ -76,7 +76,7 @@ contract SaleBase is Pausable, Contactable {
     event Refund(address buyer, uint weiAmount);
     event RefundLoaded(uint amount);
 
-    function SaleBase(
+    constructor(
         uint _startTime,
         uint _endTime,
         IPricingStrategy _pricingStrategy,
@@ -148,7 +148,7 @@ contract SaleBase is Pausable, Contactable {
         tokensSold = tokensSold.add(tokenAmount);
     
         token.mint(beneficiary, tokenAmount, true);
-        TokenPurchase(msg.sender, beneficiary, weiAmount, tokenAmount);
+        emit TokenPurchase(msg.sender, beneficiary, weiAmount, tokenAmount);
     }
 
     // return true if the transaction can buy tokens
@@ -195,7 +195,7 @@ contract SaleBase is Pausable, Contactable {
         
         loadedRefund = loadedRefund.add(msg.value);
 
-        RefundLoaded(msg.value);
+        emit RefundLoaded(msg.value);
     }
 
     /**
@@ -214,7 +214,7 @@ contract SaleBase is Pausable, Contactable {
         weiRefunded = weiRefunded.add(weiValue);
         msg.sender.transfer(weiValue);
 
-        Refund(msg.sender, weiValue);
+        emit Refund(msg.sender, weiValue);
     }
 
     function registerPayment(address beneficiary, uint tokenAmount, uint weiAmount) public onlyOwnerOrAdmin {

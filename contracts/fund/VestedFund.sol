@@ -6,7 +6,7 @@ import "./FundBase.sol";
 
 contract VestedFund is FundBase {
 
-    function VestedFund(ERC20Basic _token) public FundBase(_token) {
+    constructor(ERC20Basic _token) public FundBase(_token) {
         
     }
 
@@ -24,17 +24,17 @@ contract VestedFund is FundBase {
         bool _revocable
     ) external onlyOwner 
     {
-        var paymentFund = new TokenVesting(_beneficiary, _start, _cliff, _duration, _revocable);
+        TokenVesting paymentFund = new TokenVesting(_beneficiary, _start, _cliff, _duration, _revocable);
         token.safeTransfer(paymentFund, _amount);
         vestedPayments[_beneficiary].push(paymentFund);
         
-        VestedPaymentCreated(_beneficiary, paymentFund, vestedPayments[_beneficiary].length-1, _amount);
+        emit VestedPaymentCreated(_beneficiary, paymentFund, vestedPayments[_beneficiary].length-1, _amount);
     }
 
     function revokeVestedPayment(address _beneficiary, uint _paymentIndex) external onlyOwner {
-        var paymentFund = vestedPayments[_beneficiary][_paymentIndex];
+        TokenVesting paymentFund = vestedPayments[_beneficiary][_paymentIndex];
         paymentFund.revoke(token);
         
-        VestedPaymentRevoked(_beneficiary, paymentFund, _paymentIndex);
+        emit VestedPaymentRevoked(_beneficiary, paymentFund, _paymentIndex);
     }
 }

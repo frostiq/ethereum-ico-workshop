@@ -43,7 +43,7 @@ contract MyIcoToken is ERC20, Contactable, StandardToken {
         _;
     }
 
-    function MyIcoToken() public {
+    constructor() public {
         minter = msg.sender;
     }
 
@@ -61,7 +61,7 @@ contract MyIcoToken is ERC20, Contactable, StandardToken {
         balances[msg.sender] = balances[msg.sender].sub(_value);
         balances[_to] = balances[_to].add(_value);
 
-        Transfer(msg.sender, _to, _value);
+        emit Transfer(msg.sender, _to, _value);
         return true;
     }
 
@@ -90,7 +90,7 @@ contract MyIcoToken is ERC20, Contactable, StandardToken {
         balances[_to] = balances[_to].add(_value);
         allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
 
-        Transfer(_from, _to, _value);
+        emit Transfer(_from, _to, _value);
         return true;
     }
 
@@ -107,7 +107,7 @@ contract MyIcoToken is ERC20, Contactable, StandardToken {
     function approve(address _spender, uint _value) public returns (bool) {
         require(_value == 0 || allowed[msg.sender][_spender] == 0);
         allowed[msg.sender][_spender] = _value;
-        Approval(msg.sender, _spender, _value);
+        emit Approval(msg.sender, _spender, _value);
         return true;
     }
 
@@ -133,7 +133,7 @@ contract MyIcoToken is ERC20, Contactable, StandardToken {
      */
     function increaseApproval(address _spender, uint _addedValue) public returns (bool) {
         allowed[msg.sender][_spender] = allowed[msg.sender][_spender].add(_addedValue);
-        Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+        emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
         return true;
     }
 
@@ -154,7 +154,7 @@ contract MyIcoToken is ERC20, Contactable, StandardToken {
         } else {
             allowed[msg.sender][_spender] = oldValue.sub(_subtractedValue);
         }
-        Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
+        emit Approval(msg.sender, _spender, allowed[msg.sender][_spender]);
         return true;
     }
 
@@ -170,8 +170,8 @@ contract MyIcoToken is ERC20, Contactable, StandardToken {
         if (freeze) {
             freezedList[_to] = true;
         }
-        Mint(_to, _amount);
-        Transfer(address(0), _to, _amount);
+        emit Mint(_to, _amount);
+        emit Transfer(address(0), _to, _amount);
         return true;
     }
 
@@ -181,7 +181,7 @@ contract MyIcoToken is ERC20, Contactable, StandardToken {
      */
     function finishMinting() canMint onlyMinter external returns (bool) {
         mintingFinished = true;
-        MintingFinished();
+        emit MintingFinished();
         return true;
     }
     

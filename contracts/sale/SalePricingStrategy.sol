@@ -11,7 +11,7 @@ contract SalePricingStrategy is IPricingStrategy {
     uint[] public rates;
     uint[] public limits;
 
-    function SalePricingStrategy(
+    constructor (
         uint[] _rates,
         uint[] _limits
     ) public
@@ -32,7 +32,9 @@ contract SalePricingStrategy is IPricingStrategy {
             return 0;
         }
 
-        var (rate, index) = currentRate(weiRaised);
+        uint rate;
+        uint8 index;
+        (rate, index) = currentRate(weiRaised);
         tokenAmount = weiAmount.mul(rate);
 
         // if we crossed slot border, recalculate remaining tokens according to next slot price

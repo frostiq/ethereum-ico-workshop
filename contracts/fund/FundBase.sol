@@ -9,7 +9,7 @@ contract FundBase is Contactable {
     
     ERC20Basic public token;
 
-    function FundBase(ERC20Basic _token) public {
+    constructor(ERC20Basic _token) public {
         token = _token;
     }
 }

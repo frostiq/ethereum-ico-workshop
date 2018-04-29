@@ -9,7 +9,7 @@ pragma solidity ^0.4.17;
  */
 interface IFinalizeAgent {
 
-  function isFinalizeAgent() public constant returns(bool);
+  function isFinalizeAgent() external constant returns(bool);
 
   /** Called once by crowdsale finalize() if the sale was success. */
   function finalizeCrowdsale() external;
