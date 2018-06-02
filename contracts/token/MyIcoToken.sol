@@ -1,30 +1,32 @@
-pragma solidity ^0.4.17;
+pragma solidity ^0.4.23;
 
 import "zeppelin-solidity/contracts/math/SafeMath.sol";
 import "zeppelin-solidity/contracts/ownership/Contactable.sol";
 import "zeppelin-solidity/contracts/token/ERC20/ERC20.sol";
-import "zeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
-
-
 
 contract MyIcoToken is ERC20, Contactable, StandardToken {
     using SafeMath for uint;
 
+    // token name (string)
     string constant public name = "MyIco Token";
+    // token symbol (string)
     string constant public symbol = "ICO";
-    uint constant public decimals = 18;
+    // decimals amount (uint8)
+    uint8 constant public decimals = 18;
 
-    bool public isActivated = false;
+    // total tokens amount (uint)
+    uint public totalSupply_;
+    // ICO activation status (bool)
+    bool public isActivated = false; 
+    // address, who is allowed to issue new tokens (presale and sale contracts)
+    address public minter;
+    // mitning status (bool)
+    bool public mintingFinished = false;
 
     mapping (address => uint) balances;
     mapping (address => mapping (address => uint)) internal allowed;
     mapping (address => bool) public freezedList;
     
-    // address, who is allowed to issue new tokens (presale and sale contracts)
-    address public minter;
-
-    bool public mintingFinished = false;
-
     event Mint(address indexed to, uint amount);
     event MintingFinished();
 
@@ -174,7 +176,7 @@ contract MyIcoToken is ERC20, Contactable, StandardToken {
         emit Transfer(address(0), _to, _amount);
         return true;
     }
-
+    
     /**
      * @dev Function to stop minting new tokens.
      * @return True if the operation was successful.
