@@ -4,7 +4,7 @@ import "zeppelin-solidity/contracts/math/SafeMath.sol";
 import "zeppelin-solidity/contracts/ownership/Contactable.sol";
 import "zeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 
-contract MyIcoToken is ERC20, Contactable, StandardToken {
+contract MyIcoToken is ERC20, Contactable {
     using SafeMath for uint;
 
     // token name (string)
